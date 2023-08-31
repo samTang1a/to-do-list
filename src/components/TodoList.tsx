@@ -1,18 +1,22 @@
-import { Component } from 'react';
+import { useState } from 'react';
 
-export default class ToDoList extends Component {
+export default function ToDoList() {
 
-  todos: string[] = ["Buy groceries", "Clean the house", "Walk the dog"]
+	const [doneIndex, setDoneIndex] = useState<number | null>(null)
+	function handleClick(index: number){
+		// setDoneIndex(index)
+		setDoneIndex(index === doneIndex ? null : index);
+	}
 
-  render() {
-    return (
-      <>
-        <ul className="list-group">
-          {this.todos.map(todo =>
-            (<li className="list-group-item">{todo}</li>)
-          )}
-        </ul>
-      </>
-    )
-  }
+	const todos: string[] = ["Buy groceries", "Clean the house", "Walk the dog"]
+
+	return (
+		<>
+			<h2>To-Do List</h2>
+			<ul className="list-group">
+				{todos.length > 0 ? (todos.map((todo, index) => <li key={index} onClick={()=>handleClick(index)} className={`list-group-item ${doneIndex === index ? 'active' : ''} `}>{todo}</li>)) : (<li className="list-group-item">No item</li>)}
+			</ul>
+		</>
+	)
 }
+
